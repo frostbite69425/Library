@@ -82,9 +82,27 @@ function displayBooks() {
     completeBook.dataset.UUID = books.bookUid;
     deleteBtn.className = "delete-btn";
   }
+
+  const deleteBtnList = document.querySelectorAll(".delete-btn");
+
+  deleteBtnList.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      i = 0;
+      const uid = e.target.parentNode.dataset.UUID;
+      for (books of myLibrary) {
+        if (books.bookUid == uid) {
+          myLibrary.splice(i, 1);
+          displayBooks();
+        } else {
+          i++;
+        }
+      }
+    });
+  });
 }
 
-const deleteBtnList = document.querySelectorAll(".delete-btn");
+// const deleteBtnList = document.querySelectorAll(".delete-btn");
 
 // FUNCTION FOR ADDING NEW BOOKS USING THE BUTTON
 
@@ -95,19 +113,18 @@ newBook.addEventListener("click", (e) => {
 
 // FUNCTION FOR DELETING BOOKS USING THE BUTTON
 
-deleteBtnList.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    i = 0;
-    const uid = e.target.parentNode.dataset.UUID;
-    for (books of myLibrary) {
-      if (books.bookUid == uid) {
-        myLibrary.splice(i, 1);
-        displayBooks();
-        const deleteBtnList = document.querySelectorAll(".delete-btn");
-      } else {
-        i++;
-      }
-    }
-  });
-});
+// deleteBtnList.forEach((btn) => {
+//   btn.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     i = 0;
+//     const uid = e.target.parentNode.dataset.UUID;
+//     for (books of myLibrary) {
+//       if (books.bookUid == uid) {
+//         myLibrary.splice(i, 1);
+//         displayBooks();
+//       } else {
+//         i++;
+//       }
+//     }
+//   });
+// });
