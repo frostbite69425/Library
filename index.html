@@ -19,10 +19,53 @@
         <div class="new-book-btn">
           <button type="button">New book</button>
         </div>
-        <!-- <div class="delete-book-btn">
-          <button type="button">Delete book</button>
-        </div> -->
       </div>
+      <dialog class="modal">
+        <form class="book-form">
+          <p>
+            <label for="book-title">
+              Title:
+              <input type="text" name="title" id="book-title" autofocus />
+            </label>
+          </p>
+          <p>
+            <label for="book-author">
+              Author:
+              <input type="text" name="author" id="book-author" />
+            </label>
+          </p>
+          <p>
+            <label for="book-pages">
+              Number of pages:
+              <input type="number" name="pages" id="book-pages" />
+            </label>
+          </p>
+          <p>
+            <label for="book-reading-status">
+              Read yet?
+              <select name="reading-status" id="book-reading-status">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+          </p>
+          <p>
+            <label for="book-notes">
+              <textarea
+                name="notes"
+                id="book-notes"
+                rows="7"
+                cols="30"
+                placeholder="Comments"
+              ></textarea>
+            </label>
+          </p>
+          <div class="modal-btns">
+            <button value="cancel" formmethod="dialog">Cancel</button>
+            <button id="modalConfirmBtn" value="default">Confirm</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   </body>
 </html>
