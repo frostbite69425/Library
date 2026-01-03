@@ -21,7 +21,7 @@
         </div>
       </div>
       <dialog class="modal">
-        <form class="book-form">
+        <form class="book-form" id="book-form">
           <p>
             <label for="book-title">
               Title:
@@ -61,7 +61,9 @@
             </label>
           </p>
           <div class="modal-btns">
-            <button value="cancel" formmethod="dialog">Cancel</button>
+            <button id="modalCancelBtn" value="cancel" formmethod="dialog">
+              Cancel
+            </button>
             <button id="modalConfirmBtn" value="default">Confirm</button>
           </div>
         </form>

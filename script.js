@@ -5,7 +5,9 @@ const cardDisplay = document.querySelector("div.card-display");
 const newBookBtn = document.querySelector(".new-book-btn > button");
 
 const modal = document.querySelector("dialog.modal");
+const form = document.querySelector("#book-form");
 const modalConfirmBtn = document.querySelector("button#modalConfirmBtn");
+const modalCancelBtn = document.querySelector("button#modalCancelBtn");
 const modalTitle = document.querySelector("#book-title");
 const modalAuthor = document.querySelector("#book-author");
 const modalPages = document.querySelector("#book-pages");
@@ -38,13 +40,34 @@ function Book(title, author, pages, read, info) {
   if (read == "yes" || read == "read") {
     this.read = "read";
   } else {
-    this.read = " not read yet";
+    this.read = "not read yet";
   }
 }
 
 Book.prototype = {
   uidGen() {
     return crypto.randomUUID();
+  },
+
+  readBook(uid) {
+    for (books of myLibrary) {
+      if (books.bookUid == uid) {
+        books.read = books.read === "read" ? "not read yet" : "read";
+        displayBooks();
+      }
+    }
+  },
+
+  delBook(uid) {
+    i = 0;
+    for (books of myLibrary) {
+      if (books.bookUid == uid) {
+        myLibrary.splice(i, 1);
+        displayBooks();
+      } else {
+        i++;
+      }
+    }
   },
 };
 
@@ -53,7 +76,6 @@ Book.prototype = {
 function addBookToLibrary(title, author, pages, readingStatus, info) {
   let book = new Book(title, author, pages, readingStatus, info);
   myLibrary.push(book);
-  // log(myLibrary);
   displayBooks();
 }
 
@@ -98,39 +120,32 @@ function displayBooks() {
   const deleteBtnList = document.querySelectorAll(".delete-btn");
   const toggleBtnList = document.querySelectorAll(".toggle-read-btn");
 
-  // FUNCTION FOR DELETING BOOKS USING THE BUTTON
+  delFunction(deleteBtnList);
+  toggleFunction(toggleBtnList);
+}
 
-  deleteBtnList.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      i = 0;
-      const uid = e.target.parentNode.dataset.UUID;
-      for (books of myLibrary) {
-        if (books.bookUid == uid) {
-          myLibrary.splice(i, 1);
-          displayBooks();
-        } else {
-          i++;
-        }
-      }
-    });
-  });
+// FUNCTION FOR TOGGLING READ STATUS
 
-  // FUNCTION FOR TOGGLING READ STATUS
-
+function toggleFunction(toggleBtnList) {
   toggleBtnList.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      i = 0;
       const uid = e.target.parentNode.dataset.UUID;
-      for (books of myLibrary) {
-        if (books.bookUid == uid) {
-          books.read = books.read === "read" ? "not read yet" : "read";
-          displayBooks();
-        } else {
-          i++;
-        }
-      }
+      books.readBook(uid);
+      // HERE books POINTS TO THE LAST OBJECT IN THE ARRAY. I DON'T KNOW HOW TO FIX THAT YET BUT THE LOGIC WORKS AS INTENDED.
+    });
+  });
+}
+
+// FUNCTION FOR DELETING BOOKS USING THE BUTTON
+
+function delFunction(deleteBtnList) {
+  deleteBtnList.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const uid = e.target.parentNode.dataset.UUID;
+      books.delBook(uid);
+      // SAME THING HERE. IT POINTS TO THE LAST CREATED OBJECT BUT THE INTERNAL LOGIC WORKS CORRECTLY
     });
   });
 }
@@ -139,7 +154,6 @@ function displayBooks() {
 
 newBookBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  // addBookToLibrary("Hoola2", "not me", 1, "yes", "i");
   modal.showModal();
 });
 
@@ -152,26 +166,29 @@ modalConfirmBtn.addEventListener("click", (e) => {
     modalAuthor.value,
     modalPages.value,
     modalReading.value,
-    modalNotes.value,
   ];
 
   for (entry of validityCheck) {
     if (entry == "default" || entry == "") {
       modal.close();
-      return;
-    } else {
-      addBookToLibrary(
-        modalTitle.value,
-        modalAuthor.value,
-        modalPages.value,
-        modalReading.value,
-        modalNotes.value
-      );
-
-      modal.close();
+      form.reset();
       return;
     }
   }
+  addBookToLibrary(
+    modalTitle.value,
+    modalAuthor.value,
+    modalPages.value,
+    modalReading.value,
+    modalNotes.value
+  );
+  form.reset();
+  modal.close();
+  return;
+});
+
+modalCancelBtn.addEventListener("click", () => {
+  form.reset();
 });
 
 addBookToLibrary("Hoola", "me", 1, "yes", "i");
