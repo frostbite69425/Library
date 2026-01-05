@@ -13,6 +13,7 @@ const modalAuthor = document.querySelector("#book-author");
 const modalPages = document.querySelector("#book-pages");
 const modalReading = document.querySelector("#book-reading-status");
 const modalNotes = document.querySelector("#book-notes");
+const gitBtn = document.querySelector(".footer > button");
 
 // MAIN LOGIC
 
@@ -177,6 +178,14 @@ newBookBtn.addEventListener("click", (e) => {
 
 modalConfirmBtn.addEventListener("click", (e) => {
   e.preventDefault();
+  if (
+    !modalPages.checkValidity() ||
+    !modalTitle.checkValidity() ||
+    !modalAuthor.checkValidity()
+  ) {
+    form.reportValidity();
+    return;
+  }
   validityCheck = [
     modalTitle.value,
     modalAuthor.value,
@@ -230,6 +239,11 @@ themeBtn.addEventListener("click", (e) => {
             />`;
     displayBooks();
   }
+});
+
+gitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.href = "https://github.com/frostbite69425/Library";
 });
 
 addBookToLibrary(

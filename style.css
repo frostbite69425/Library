@@ -115,8 +115,9 @@ h6 {
   --success: oklch(64.525% 0.2174 142.808);
   --info: oklch(0.7 0.05 260);
   --border-card: 2px solid var(var(--border));
-  --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient: radial-gradient(at right top, rgb(29, 36, 79), rgb(91, 8, 8));
   --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+  --svg-fill: #ffffff;
 }
 
 ::backdrop {
@@ -157,8 +158,13 @@ body.light {
   --success: oklch(0.5 0.05 160);
   --info: oklch(56.075% 0.11756 259.88);
   --border-card: 2px solid var(var(--bg));
-  --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient: radial-gradient(
+    at right top,
+    rgb(208, 175, 118),
+    rgb(218, 232, 242)
+  );
   --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+  --svg-fill: #000000;
 }
 
 body {
@@ -417,6 +423,50 @@ button#modalCancelBtn {
 button#modalConfirmBtn {
   background-color: var(--info);
   color: var(--bg);
+}
+
+.footer {
+  padding: 2rem;
+  background-color: var(--bg);
+  color: var(--text);
+  border-radius: 15px;
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 15px;
+    background: var(--gradient);
+    outline: 3px var(--border-card) solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 200ms;
+  }
+
+  .button .text {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1em;
+    transition: 200ms;
+  }
+
+  .button svg path {
+    transition: 200ms;
+  }
+
+  .button:hover {
+    transform: scale(1.1);
+  }
+
+  .button svg path {
+    fill: var(--svg-fill);
+  }
 }
 
 @media (width <= 599px) {
