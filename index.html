@@ -37,19 +37,36 @@
           <p>
             <label for="book-title">
               Title:
-              <input type="text" name="title" id="book-title" autofocus />
+              <input
+                type="text"
+                name="title"
+                maxlength="30"
+                id="book-title"
+                autofocus
+              />
             </label>
           </p>
           <p>
             <label for="book-author">
               Author:
-              <input type="text" name="author" id="book-author" />
+              <input
+                type="text"
+                name="author"
+                maxlength="20"
+                id="book-author"
+              />
             </label>
           </p>
           <p>
             <label for="book-pages">
               Number of pages:
-              <input type="number" name="pages" id="book-pages" />
+              <input
+                type="number"
+                name="pages"
+                min="1"
+                max="9"
+                id="book-pages"
+              />
             </label>
           </p>
           <p>
@@ -69,6 +86,7 @@
                 rows="7"
                 cols="30"
                 placeholder="Comments"
+                maxlength="100"
               ></textarea>
             </label>
           </p>

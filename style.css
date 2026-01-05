@@ -110,14 +110,21 @@ h6 {
   --border-muted: oklch(0.3 0 132);
   --primary: oklch(0.76 0.1 132);
   --secondary: oklch(0.76 0.1 312);
-  --danger: oklch(0.7 0.05 30);
+  --danger: oklch(69.667% 0.16256 31.844);
   --warning: oklch(0.7 0.05 100);
-  --success: oklch(0.7 0.05 160);
+  --success: oklch(64.525% 0.2174 142.808);
   --info: oklch(0.7 0.05 260);
   --border-card: 2px solid var(var(--border));
   --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
   --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
 }
+
+::backdrop {
+  filter: blur(8px);
+  background-color: var(--bg-dark);
+  opacity: 0.8;
+}
+
 body.light {
   /* hsl (fallback color) */
   --bg-dark: hsl(0 0% 90%);
@@ -145,10 +152,10 @@ body.light {
   --border-muted: oklch(0.7 0 132);
   --primary: oklch(0.4 0.1 132);
   --secondary: oklch(0.4 0.1 312);
-  --danger: oklch(0.5 0.05 30);
+  --danger: oklch(70.174% 0.19071 32.148);
   --warning: oklch(0.5 0.05 100);
   --success: oklch(0.5 0.05 160);
-  --info: oklch(0.5 0.05 260);
+  --info: oklch(56.075% 0.11756 259.88);
   --border-card: 2px solid var(var(--bg));
   --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
   --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
@@ -167,7 +174,7 @@ body {
 .main {
   display: grid;
   gap: 1.5rem;
-  grid-template-rows: 1fr 0.5fr 4fr;
+  grid-template-rows: 200px 100px 4fr;
 }
 
 .hero {
@@ -176,11 +183,13 @@ body {
   color: var(--text);
   border-radius: 15px;
   position: relative;
+  display: grid;
+  place-items: center;
 
   > .heading {
-    font-size: clamp(1.7rem, 10vw, 4.5rem);
+    font-size: clamp(1.7rem, 7vw, 4.5rem);
     border: var(--border-card);
-    border-top: 2px solid var(--highlight);
+
     box-shadow: 7px 5px 5px var(--bg-dark);
     background-color: var(--bg-light);
     padding: 1rem;
@@ -256,7 +265,12 @@ body {
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 
+  justify-content: center;
+
   div {
+    max-width: clamp(35rem, 40dvw, 60rem);
+    display: grid;
+    align-content: space-between;
     background-color: var(--bg-light);
     font-size: clamp(1.5rem, 2.7vw, 2rem);
     padding: 1rem;
@@ -267,14 +281,154 @@ body {
       color: var(--text);
     }
 
+    div:nth-child(5) {
+      overflow-x: auto;
+      text-wrap: wrap;
+    }
+
     div:nth-child(4) {
       display: flex;
-      justify-content: start;
-      gap: 2rem;
+      padding: 0 1rem;
+      gap: 1.4rem;
+      align-items: center;
 
       > div {
         color: var(--text-muted);
       }
+
+      > input {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: var(bg);
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        display: grid;
+        place-content: center;
+      }
+
+      > input::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 2s transform ease-in-out;
+        box-shadow: inset 1em 1em var(--success);
+        transform-origin: bottom left;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+
+      > input:checked::before {
+        transform: scale(1);
+      }
+
+      > input:focus {
+        outline: max(2px, 0.15em) solid currentColor;
+        outline-offset: max(2px, 0.15em);
+      }
+
+      > input:hover {
+        transform: scale(1.04);
+      }
     }
+  }
+}
+
+.delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  max-width: fit-content;
+  /* justify-self: center; */
+
+  background-color: var(--danger);
+  color: var(--bg);
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  font-size: clamp(1em, 1.5vw, 1.5rem);
+  border: var(--border-card);
+  box-shadow: 2px 5px 5px var(--bg-dark);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  transform: scale(1.015);
+}
+
+.modal {
+  padding: 4rem;
+  background-color: var(--bg);
+  color: var(--text);
+  border-radius: 15px;
+  position: relative;
+  margin: auto;
+  width: clamp(25rem, 40dvw, 65rem);
+  border: var(--border-card);
+  box-shadow: 7px 5px 5px var(--bg-dark);
+
+  > form {
+    display: grid;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  > form select {
+    background-color: var(--bg-light);
+    color: var(--text-muted);
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    font-size: min(1.5rem, 10vw);
+    border: var(--border-card);
+    border-top: 2px solid var(--highlight);
+    box-shadow: 7px 5px 5px var(--bg-dark);
+    cursor: pointer;
+  }
+
+  input,
+  textarea {
+    min-width: 100%;
+    border-radius: 7px;
+    border: var(--border-card);
+    box-shadow: 7px 5px 5px var(--bg-dark);
+  }
+}
+
+.modal-btns button {
+  color: var(--text);
+  font-weight: 700;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-size: clamp(1.5rem, 1.3vw, 1.8rem);
+  border: var(--border-card);
+  /* border-top: 2px solid var(--highlight); */
+  box-shadow: 7px 5px 5px var(--bg-dark);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+button#modalCancelBtn {
+  background-color: var(--danger);
+  color: var(--bg);
+}
+button#modalConfirmBtn {
+  background-color: var(--info);
+  color: var(--bg);
+}
+
+@media (width <= 599px) {
+  .card-display {
+    > div {
+      max-width: 100%;
+    }
+  }
+
+  .modal {
+    display: flex;
+    width: fit-content;
+    padding: 2rem;
   }
 }
