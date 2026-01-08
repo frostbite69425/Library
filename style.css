@@ -477,7 +477,6 @@ button#modalConfirmBtn {
   }
 
   .modal {
-    display: flex;
     width: fit-content;
     padding: 2rem;
   }
