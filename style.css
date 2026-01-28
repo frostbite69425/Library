@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Google Sans";
-  src: url(/Google_Sans_Flex/static/GoogleSansFlex_24pt-Regular.ttf);
+  src: url(../Google_Sans_Flex/static/GoogleSansFlex_24pt-Regular.ttf);
 }
 
 *,
