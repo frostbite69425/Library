@@ -1,13 +1,7 @@
-// logger function
-
-function log(x) {
-  console.log(x);
-}
-
-// LIBRARY IIFE
+// LIBRARY FUNCTION
 
 const library = (() => {
-  myLibrary = [];
+  let myLibrary = [];
 
   const delBook = (uid) => {
     i = 0;
@@ -28,10 +22,21 @@ const library = (() => {
     myLibrary.push(book);
   };
 
+  const toggleReadStatus = (uid) => {
+    for (let books of myLibrary) {
+      if (books.uid == uid) {
+        books.readStatus == "read"
+          ? (books.readStatus = "not read yet")
+          : (books.readStatus = "read");
+      }
+    }
+  };
+
   return {
     delBook,
     getLibraryCollection,
     setLibraryCollection,
+    toggleReadStatus,
   };
 })();
 
@@ -83,35 +88,13 @@ class Book {
   get uid() {
     return this.#bookUid;
   }
-
-  // set readStatus(currentReadStatus) {
-  //   currentReadStatus = currentReadStatus == "read" ? "not read yet" : "read";
-  //   this.#read = currentReadStatus;
-  // }
-
-  set toggleReadStatus(uid) {
-    let myLibrary = library.getLibraryCollection();
-    for (let books of myLibrary) {
-      if (books.uid == uid) {
-        books.readStatus == "read"
-          ? (books.readStatus = "not read yet")
-          : (books.readStatus = "read");
-      }
-    }
-  }
 }
 
-function addBookToLibrary(title, author, pages, readingStatus, info) {
-  let book = new Book(title, author, pages, readingStatus, info);
-}
-
-function displayBooks() {
+const paintDom = (myLibrary) => {
   const cardDisplay = document.querySelector("div.card-display");
   while (cardDisplay.firstChild) {
     cardDisplay.removeChild(cardDisplay.lastChild);
   }
-
-  let myLibrary = library.getLibraryCollection();
 
   for (let books of myLibrary) {
     // NODES
@@ -157,9 +140,18 @@ function displayBooks() {
       toggleReadBtn.checked = false;
     }
     toggleReadBtn.className = "toggle-read-btn";
-    toggleBtnListController();
-    deleteBtnListController();
   }
+};
+
+function addBookToLibrary(title, author, pages, readingStatus, info) {
+  let book = new Book(title, author, pages, readingStatus, info);
+}
+
+function displayBooks() {
+  let myLibrary = library.getLibraryCollection();
+  paintDom(myLibrary);
+  toggleBtnListController();
+  deleteBtnListController();
 }
 
 const toggleBtnListController = () => {
@@ -168,14 +160,9 @@ const toggleBtnListController = () => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const uid = e.target.parentNode.parentNode.dataset.UUID;
-      for (let books of library.getLibraryCollection()) {
-        if (books.uid == uid) {
-          books.toggleReadStatus = uid;
-        }
-      }
+      library.toggleReadStatus(uid);
       displayBooks();
     });
-    btn.focus({ preventScroll: true });
   });
 };
 
