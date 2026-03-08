@@ -204,15 +204,32 @@ const displayController = (() => {
 
   modalConfirmBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    if (
-      !modalPages.checkValidity() ||
-      !modalTitle.checkValidity() ||
-      !modalAuthor.checkValidity()
-    ) {
-      form.reportValidity();
+    modalTitle.setCustomValidity("");
+    modalAuthor.setCustomValidity("");
+    modalPages.setCustomValidity("");
+    modalPages.reportValidity();
+    modalAuthor.reportValidity();
+    modalAuthor.reportValidity();
+
+    if (!modalTitle.checkValidity()) {
+      modalTitle.setCustomValidity("You need to enter a title for the book!");
+      modalTitle.reportValidity();
+      return;
+    } else if (!modalAuthor.checkValidity()) {
+      modalAuthor.setCustomValidity(
+        "You need to enter the name of the author!",
+      );
+      modalAuthor.reportValidity();
+      return;
+    } else if (!modalPages.checkValidity()) {
+      modalPages.setCustomValidity(
+        "You need to set the number of pages to more than 0 and less than 9999!",
+      );
+      modalPages.reportValidity();
       return;
     }
-    validityCheck = [
+
+    const validityCheck = [
       modalTitle.value,
       modalAuthor.value,
       modalPages.value,
@@ -241,6 +258,7 @@ const displayController = (() => {
 
   modalCancelBtn.addEventListener("click", () => {
     form.reset();
+    modal.close();
   });
 })();
 
